@@ -1,0 +1,24 @@
+<script type="application/ld+json">{
+    "@context": "https://schema.org",
+    "@type": "Product",
+    "name": "دستمال مرطوب پاک کننده آرایش صورت بامبل بسته 25 عددی",
+    "description": "&nbsp;مناسب برای تمامی پوست ها\r\n \t&nbsp;آنتی باکتریال\r\n \t&nbsp;کاملا ضد حساسیت\r\n \tپاک کننده مناسب آلودگی ها از روی پوست\r\n \t&nbsp;بدون الکل\r\n \t&nbsp;خوشبو و معطر طراوت بخش",
+    "image": "https://ulduzcenter.com/wp-content/uploads/bumble-wet-wipes-pack-of-25.webp",
+    "url": "https://ulduzcenter.com/product/bumble-wet-wipes-25pcs/",
+    "sku": "16238",
+    "brand": "",
+    "offers": {
+        "@type": "Offer",
+        "availability": "https://schema.org/InStock",
+        "price": 350000,
+        "priceValidUntil": "2035-12-31",
+        "priceCurrency": "IRR",
+        "url": "https://ulduzcenter.com/product/bumble-wet-wipes-25pcs/"
+    },
+    "aggregateRating": {
+        "@type": "AggregateRating",
+        "bestRating": 5,
+        "ratingValue": 5,
+        "reviewCount": 1
+    }
+}</script>

@@ -1,0 +1,21 @@
+{
+    "manifest_version": 3,
+    "name": "VIP Derma Product Editor",
+    "version": "1.0",
+    "description": "Adds an 'Edit Product' button on product pages to jump to Webzi editor.",
+    "permissions": [],
+    "host_permissions": [
+        "https://vipderma.ir/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://vipderma.ir/shop/*"
+            ],
+            "js": [
+                "content.js"
+            ],
+            "run_at": "document_end"
+        }
+    ]
+}

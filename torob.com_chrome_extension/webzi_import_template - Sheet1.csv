@@ -1,0 +1,2 @@
+title,description,visible,price,inventory,quantity,weight
+{product_name},{description},TRUE,0,Track,1,0.1

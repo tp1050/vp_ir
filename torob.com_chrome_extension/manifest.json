@@ -1,0 +1,23 @@
+{
+    "manifest_version": 3,
+    "name": "Torob Product Scraper",
+    "version": "2.3",
+    "description": "Extracts product data to JSON on torob.com/p/{hash} pages.",
+    "permissions": [
+        "downloads"
+    ],
+    "host_permissions": [
+        "https://torob.com/*"
+    ],
+    "content_scripts": [
+        {
+            "matches": [
+                "https://torob.com/p/*"
+            ],
+            "js": [
+                "content.js"
+            ],
+            "run_at": "document_idle"
+        }
+    ]
+}

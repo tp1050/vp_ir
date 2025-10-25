@@ -1,0 +1,172 @@
+a chrome extension run only when the user is browsing a product video on 
+torob.com which always have this format:
+https://torob.com/p/7a830317-467a-4fae-8a65-cdc0aff44b0c/%D9%82%D8%B1%D8%B5-%D9%82%D9%87%D9%88%D9%87-%DA%A9%D8%A7%D9%81%DB%8C-%DA%A9%D9%86%D8%AF%DB%8C-%D9%88%D8%B2%D9%86-1-%DA%A9%DB%8C%D9%84%D9%88%DA%AF%D8%B1%D9%85/
+the url always starts with https://torob.com/p/ and then a long ass hash representing the product then name of the product in farsi language
+the urls with only https://torob.com/p/ and no hash are sometimes empty result or search result pages and should be ignored.
+
+The product page include important information we like to save to a json file locally in the default download directory a directory called
+torob/products/jsons
+
+this information includes the images of the product which can be found in the dom in the below format as laid out by th example:
+<img src="https://image.torob.com/base/images/-e/UJ/-eUJe6f88YiXC3d4.jpg" alt="Gallery item" class="ImageVideoSliderGallery_media__KXeHl">
+
+the name of the product as laid out in the example:
+<div class="Showcase_name__hrttI"><h1>قرص قهوه کافی کندی وزن ۱ کیلوگرم</h1></div>
+
+the prodcut specifications:
+ such as in example one :
+
+ <div class="jsx-d9bfdb7eefd5a6bf product-section" style="padding-inline-end: 12px;"><h2 id="specs-header-7a830317-467a-4fae-8a65-cdc0aff44b0c" class="jsx-d9bfdb7eefd5a6bf section-title">مشخصات محصول</h2><div class="jsx-d9bfdb7eefd5a6bf specs-content"><div class="jsx-d9bfdb7eefd5a6bf sub-section"><div class="jsx-d9bfdb7eefd5a6bf line"></div><div class="jsx-d9bfdb7eefd5a6bf header">مشخصات کلی</div><div class="jsx-d9bfdb7eefd5a6bf"><div class="jsx-d9bfdb7eefd5a6bf detail-title">اصالت کالا</div><div class="jsx-d9bfdb7eefd5a6bf detail-value">اصل</div></div><div class="jsx-d9bfdb7eefd5a6bf"><div class="jsx-d9bfdb7eefd5a6bf detail-title">تاریخ انقضاء</div><div class="jsx-d9bfdb7eefd5a6bf detail-value">۲۰۲۷/۰۴</div></div><div class="jsx-d9bfdb7eefd5a6bf"><div class="jsx-d9bfdb7eefd5a6bf detail-title">کشور سازنده</div><div class="jsx-d9bfdb7eefd5a6bf detail-value">چین</div></div><div class="jsx-d9bfdb7eefd5a6bf"><div class="jsx-d9bfdb7eefd5a6bf detail-title">وزن</div><div class="jsx-d9bfdb7eefd5a6bf detail-value">۱۰۰۰ گرم</div></div><div class="jsx-d9bfdb7eefd5a6bf"><div class="jsx-d9bfdb7eefd5a6bf detail-title">توضیحات</div><div class="jsx-d9bfdb7eefd5a6bf detail-value">حاوی پودر قهوه</div></div></div></div></div>
+
+ or example two:
+ <div class="jsx-d9bfdb7eefd5a6bf product-section" style="padding-inline-end: 12px;"><h2 id="specs-header-a899976f-3544-4a5a-a00e-9477a9576d8d" class="jsx-d9bfdb7eefd5a6bf section-title">مشخصات محصول</h2><div class="jsx-d9bfdb7eefd5a6bf specs-content"><div class="jsx-d9bfdb7eefd5a6bf key_specs"><div class="jsx-d9bfdb7eefd5a6bf"><div class="jsx-d9bfdb7eefd5a6bf key_specs_header">مشخصات کلیدی</div><div class="jsx-d9bfdb7eefd5a6bf"><div class="jsx-d9bfdb7eefd5a6bf key-specs-container" style="background: rgb(236, 237, 239);"><div class="jsx-d9bfdb7eefd5a6bf keys-values"><span class="jsx-d9bfdb7eefd5a6bf" style="margin-inline-start: 8px;">حجم</span></div><div dir="auto" class="jsx-d9bfdb7eefd5a6bf keys-values" style="color: rgb(115, 115, 115); justify-content: right; margin: 0px 8px;">۲۰۰ میلی&zwnj;لیتر</div></div></div></div></div><div class="jsx-d9bfdb7eefd5a6bf sub-section"><div class="jsx-d9bfdb7eefd5a6bf line"></div><div class="jsx-d9bfdb7eefd5a6bf header">مشخصات کلی</div><div class="jsx-d9bfdb7eefd5a6bf"><div class="jsx-d9bfdb7eefd5a6bf detail-title">حجم</div><div class="jsx-d9bfdb7eefd5a6bf detail-value">200 میلی لیتر</div></div><div class="jsx-d9bfdb7eefd5a6bf"><div class="jsx-d9bfdb7eefd5a6bf detail-title">مناسب برای</div><div class="jsx-d9bfdb7eefd5a6bf detail-value">انواع مو</div></div><div class="jsx-d9bfdb7eefd5a6bf"><div class="jsx-d9bfdb7eefd5a6bf detail-title">تركیبات</div><div class="jsx-d9bfdb7eefd5a6bf detail-value">آمودایمتیكون، تری دست-12، گلیسرین، ستریمونیوم كلراید، بنزتونیوم كلراید، پروپیلن گلیكول، فنوكسی اتانول، اتیل هگزیل گلیسرین، هیدروكسی اتیل آكریلات/ سدیم آكریلویل دی متیل تورات كوپلیمر، نیل تری متیكون، پلی كواترنیوم-28، دی سدیم ا د ت آ، پانتنول، توكوفریل استات، پروتئین ابریشم هیدرولیز شده، اسید لاكتیك، سدیم آسكوربیل فسفات، بوتیلیتد هیدروكسی تولوئن، اسانس، آب دیونیزه</div></div><div class="jsx-d9bfdb7eefd5a6bf"><div class="jsx-d9bfdb7eefd5a6bf detail-title">دارای خاصیت</div><div class="jsx-d9bfdb7eefd5a6bf detail-value">درخشان كننده مو</div></div><div class="jsx-d9bfdb7eefd5a6bf"><div class="jsx-d9bfdb7eefd5a6bf detail-title">كشور سازنده</div><div class="jsx-d9bfdb7eefd5a6bf detail-value">ایران</div></div><div class="jsx-d9bfdb7eefd5a6bf"><div class="jsx-d9bfdb7eefd5a6bf detail-title">نحوه مصرف</div><div class="jsx-d9bfdb7eefd5a6bf detail-value">سرم را بر روی ساقه موی خشك یا نم دار اسپری نمایید. سپس به طور كامل موها را شانه كرده و به فرم دلخواه حالت دهید. بعد از استفاده نیازی به آبكشی وجود ندارد.</div></div><div class="jsx-d9bfdb7eefd5a6bf"><div class="jsx-d9bfdb7eefd5a6bf detail-title">سایر توضیحات</div><div class="jsx-d9bfdb7eefd5a6bf detail-value">ایجاد استحكام ساقه مو در برابر خشكی و شكنندگی، افزایش درخشندگی، شفافیت و لطافت مو، تامین و حفظ رطوبت مو، بهبود شانه پذیری موها، رفع پیچ خوردگی مو، جلوگیری از موخوره، بدون نیاز به آبكشی ، باز كننده گره مو، براق كننده</div></div><div class="jsx-d9bfdb7eefd5a6bf"><div class="jsx-d9bfdb7eefd5a6bf detail-title">وزن</div><div class="jsx-d9bfdb7eefd5a6bf detail-value">244 گرم</div></div><div class="jsx-d9bfdb7eefd5a6bf"><div class="jsx-d9bfdb7eefd5a6bf detail-title">نوع محصول</div><div class="jsx-d9bfdb7eefd5a6bf detail-value">سرم</div></div><div class="jsx-d9bfdb7eefd5a6bf"><div class="jsx-d9bfdb7eefd5a6bf detail-title">نوع محفظه</div><div class="jsx-d9bfdb7eefd5a6bf detail-value">بطری اسپری دار</div></div><div class="jsx-d9bfdb7eefd5a6bf"><div class="jsx-d9bfdb7eefd5a6bf detail-title">برند</div><div class="jsx-d9bfdb7eefd5a6bf detail-value">فولیكا (Fulica)</div></div><div class="jsx-d9bfdb7eefd5a6bf"><div class="jsx-d9bfdb7eefd5a6bf detail-title">شرایط نگهداری</div><div class="jsx-d9bfdb7eefd5a6bf detail-value">دور از دسترس اطفال نگهداری شود.</div></div></div></div></div>
+
+ and the url of the product. these information must be structered in a json file the name equl to the name of the product.
+
+almost all this information is prodivded also in already json format in the dom as in the below example:
+
+<script nonce="" type="application/ld+json" data-next-head="">{
+              "@context": "http://schema.org/",
+              "@type": "Product",
+              "name": "سرم براق کننده و باز کننده گره مو فولیکا حجم ۲۰۰ میلی لیتر زنانه",
+              "alternateName": "",
+              "image": "https://image.torob.com/base/images/-A/AC/-AACEAtBNl4ruQF2.jpg_/560x560.webp",
+              "description": "خرید سرم براق کننده و باز کننده گره مو فولیکا حجم ۲۰۰ میلی لیتر زنانه ، لیست قیمت سرم براق کننده و باز کننده گره مو فولیکا حجم ۲۰۰ میلی لیتر زنانه ، ارزانترین قیمت سرم براق کننده و باز کننده گره مو فولیکا حجم ۲۰۰ میلی لیتر زنانه ، تخفیف های سرم براق کننده و باز کننده گره مو فولیکا حجم ۲۰۰ میلی لیتر زنانه ، مشخصات فنی سرم براق کننده و باز کننده گره مو فولیکا حجم ۲۰۰ میلی لیتر زنانه ، مقایسه قیمت سرم براق کننده و باز کننده گره مو فولیکا حجم ۲۰۰ میلی لیتر زنانه ، قیمت روز سرم براق کننده و باز کننده گره مو فولیکا حجم ۲۰۰ میلی لیتر زنانه",
+              "sku": "a899976f-3544-4a5a-a00e-9477a9576d8d",
+              "url": "https://torob.com/p/a899976f-3544-4a5a-a00e-9477a9576d8d/%D8%B3%D8%B1%D9%85-%D8%A8%D8%B1%D8%A7%D9%82-%DA%A9%D9%86%D9%86%D8%AF%D9%87-%D9%88-%D8%A8%D8%A7%D8%B2-%DA%A9%D9%86%D9%86%D8%AF%D9%87-%DA%AF%D8%B1%D9%87-%D9%85%D9%88-%D9%81%D9%88%D9%84%DB%8C%DA%A9%D8%A7-%D8%AD%D8%AC%D9%85-200-%D9%85%DB%8C%D9%84%DB%8C-%D9%84%DB%8C%D8%AA%D8%B1-%D8%B2%D9%86%D8%A7%D9%86%D9%87/",
+              "brand": {
+                "@type": "Brand",
+                "name": "فولیکا"
+              },
+              
+              "offers": {
+                "@type": "AggregateOffer",
+                "priceCurrency": "IRR",
+                "lowPrice": "1649500",
+                        "highPrice": "6090000",
+                "offerCount": "30"
+                ,"offers": [
+            {
+              "@type": "Offer",
+              "price": "2800000",
+            "priceCurrency": "IRR",
+            "name": "داروخانه دکتر دانیالی",
+            "url": "https://api.torob.com/v4/product-page/redirect/?source=next_desktop&uid=8362676&discover_method=direct&_bt__experiment=&search_id=&suid=&bvid=019a186ca8347b29afed3fab407ce4b0&session_id=pphctyfhhidhaomxprdaxndhjfoztiuw&device_id=&algorithm=&prk=32937141-6a5e-4977-84fc-62d90823721b&is_adv=1:1vCQeL:RL-vxe9bhYG4CGQrWBMavpUG8rEFzL_mI69Dpxmt4uU&btn=buy&shop_rank=&user_delivery_city=34&base_result_adv=&pdp_display=seller_card&view=&app_ver=",
+            "priceValidUntil": "2025-10-25",
+            "itemCondition": "http://schema.org/NewCondition",
+            "availability": "http://schema.org/InStock"
+            },{
+              "@type": "Offer",
+              "price": "1649500",
+            "priceCurrency": "IRR",
+            "name": "داروخانه رویال",
+            "url": "https://api.torob.com/v4/product-page/redirect/?source=next_desktop&uid=8362676&discover_method=direct&_bt__experiment=&search_id=&suid=&bvid=019a186ca8347b29afed3fab407ce4b0&session_id=pphctyfhhidhaomxprdaxndhjfoztiuw&device_id=&algorithm=&prk=564266a3-a6ec-4bf9-a053-f7b908f034a6&is_adv=&btn=buy&shop_rank=0&user_delivery_city=34&base_result_adv=&pdp_display=seller_card&view=&app_ver=",
+            "priceValidUntil": "2025-10-25",
+            "itemCondition": "http://schema.org/NewCondition",
+            "availability": "http://schema.org/InStock"
+            },{
+              "@type": "Offer",
+              "price": "1664520",
+            "priceCurrency": "IRR",
+            "name": "نصرت پلاس",
+            "url": "https://api.torob.com/v4/product-page/redirect/?source=next_desktop&uid=8362676&discover_method=direct&_bt__experiment=&search_id=&suid=&bvid=019a186ca8347b29afed3fab407ce4b0&session_id=pphctyfhhidhaomxprdaxndhjfoztiuw&device_id=&algorithm=&prk=476ec5f9-712c-41b6-9fb5-6d2bd4269e82&is_adv=&btn=buy&shop_rank=1&user_delivery_city=34&base_result_adv=&pdp_display=seller_card&view=&app_ver=",
+            "priceValidUntil": "2025-10-25",
+            "itemCondition": "http://schema.org/NewCondition",
+            "availability": "http://schema.org/InStock"
+            },{
+              "@type": "Offer",
+              "price": "1716000",
+            "priceCurrency": "IRR",
+            "name": "سلام دارو",
+            "url": "https://api.torob.com/v4/product-page/redirect/?source=next_desktop&uid=8362676&discover_method=direct&_bt__experiment=&search_id=&suid=&bvid=019a186ca8347b29afed3fab407ce4b0&session_id=pphctyfhhidhaomxprdaxndhjfoztiuw&device_id=&algorithm=&prk=b6180538-bfdc-4f39-a0c6-1df8d18164cf&is_adv=&btn=buy&shop_rank=2&user_delivery_city=34&base_result_adv=&pdp_display=seller_card&view=&app_ver=",
+            "priceValidUntil": "2025-10-25",
+            "itemCondition": "http://schema.org/NewCondition",
+            "availability": "http://schema.org/InStock"
+            },{
+              "@type": "Offer",
+              "price": "1790000",
+            "priceCurrency": "IRR",
+            "name": "نورانی",
+            "url": "https://api.torob.com/v4/product-page/redirect/?source=next_desktop&uid=8362676&discover_method=direct&_bt__experiment=&search_id=&suid=&bvid=019a186ca8347b29afed3fab407ce4b0&session_id=pphctyfhhidhaomxprdaxndhjfoztiuw&device_id=&algorithm=&prk=98e8a87d-bbd1-4330-95ce-c8a14a9af996&is_adv=&btn=buy&shop_rank=3&user_delivery_city=34&base_result_adv=&pdp_display=seller_card&view=&app_ver=",
+            "priceValidUntil": "2025-10-25",
+            "itemCondition": "http://schema.org/NewCondition",
+            "availability": "http://schema.org/InStock"
+            },{
+              "@type": "Offer",
+              "price": "1947000",
+            "priceCurrency": "IRR",
+            "name": "مثبت سبز",
+            "url": "https://api.torob.com/v4/product-page/redirect/?source=next_desktop&uid=8362676&discover_method=direct&_bt__experiment=&search_id=&suid=&bvid=019a186ca8347b29afed3fab407ce4b0&session_id=pphctyfhhidhaomxprdaxndhjfoztiuw&device_id=&algorithm=&prk=7193efb1-45cc-428e-a96e-665012c27310&is_adv=&btn=buy&shop_rank=4&user_delivery_city=34&base_result_adv=&pdp_display=seller_card&view=&app_ver=",
+            "priceValidUntil": "2025-10-25",
+            "itemCondition": "http://schema.org/NewCondition",
+            "availability": "http://schema.org/InStock"
+            },{
+              "@type": "Offer",
+              "price": "1970000",
+            "priceCurrency": "IRR",
+            "name": "گالری فوریو",
+            "url": "https://api.torob.com/v4/product-page/redirect/?source=next_desktop&uid=8362676&discover_method=direct&_bt__experiment=&search_id=&suid=&bvid=019a186ca8347b29afed3fab407ce4b0&session_id=pphctyfhhidhaomxprdaxndhjfoztiuw&device_id=&algorithm=&prk=1bb8ea57-9c57-4347-af85-a1fa9a423108&is_adv=&btn=buy&shop_rank=5&user_delivery_city=34&base_result_adv=&pdp_display=seller_card&view=&app_ver=",
+            "priceValidUntil": "2025-10-25",
+            "itemCondition": "http://schema.org/NewCondition",
+            "availability": "http://schema.org/InStock"
+            },{
+              "@type": "Offer",
+              "price": "1970000",
+            "priceCurrency": "IRR",
+            "name": "شوینده بهداشتی و آرایشی کاکتوس",
+            "url": "https://api.torob.com/v4/product-page/redirect/?source=next_desktop&uid=8362676&discover_method=direct&_bt__experiment=&search_id=&suid=&bvid=019a186ca8347b29afed3fab407ce4b0&session_id=pphctyfhhidhaomxprdaxndhjfoztiuw&device_id=&algorithm=&prk=f9d096ba-bedd-48d5-a752-50a54e34b561&is_adv=&btn=buy&shop_rank=6&user_delivery_city=34&base_result_adv=&pdp_display=seller_card&view=&app_ver=",
+            "priceValidUntil": "2025-10-25",
+            "itemCondition": "http://schema.org/NewCondition",
+            "availability": "http://schema.org/InStock"
+            },{
+              "@type": "Offer",
+              "price": "1970000",
+            "priceCurrency": "IRR",
+            "name": "داروخانه اینترنتی پرشیآپوتک",
+            "url": "https://api.torob.com/v4/product-page/redirect/?source=next_desktop&uid=8362676&discover_method=direct&_bt__experiment=&search_id=&suid=&bvid=019a186ca8347b29afed3fab407ce4b0&session_id=pphctyfhhidhaomxprdaxndhjfoztiuw&device_id=&algorithm=&prk=01b11ed4-ae36-48ec-83ed-4c8744f45fa3&is_adv=&btn=buy&shop_rank=7&user_delivery_city=34&base_result_adv=&pdp_display=seller_card&view=&app_ver=",
+            "priceValidUntil": "2025-10-25",
+            "itemCondition": "http://schema.org/NewCondition",
+            "availability": "http://schema.org/InStock"
+            },{
+              "@type": "Offer",
+              "price": "1970000",
+            "priceCurrency": "IRR",
+            "name": "تپسی شاپ",
+            "url": "https://api.torob.com/v4/product-page/redirect/?source=next_desktop&uid=8362676&discover_method=direct&_bt__experiment=&search_id=&suid=&bvid=019a186ca8347b29afed3fab407ce4b0&session_id=pphctyfhhidhaomxprdaxndhjfoztiuw&device_id=&algorithm=&prk=e02a3a22-374d-49f5-b618-3e53f1eb028d&is_adv=&btn=buy&shop_rank=8&user_delivery_city=34&base_result_adv=&pdp_display=seller_card&view=&app_ver=&installment=1,56:1vCQeL:QRb_8ayx6eICrnmzBL4nYd2h-FAzvLwbHCl0Fm7ao8Y",
+            "priceValidUntil": "2025-10-25",
+            "itemCondition": "http://schema.org/NewCondition",
+            "availability": "http://schema.org/InStock"
+            },{
+              "@type": "Offer",
+              "price": "1970000",
+            "priceCurrency": "IRR",
+            "name": "نیل بیوتی",
+            "url": "https://api.torob.com/v4/product-page/redirect/?source=next_desktop&uid=8362676&discover_method=direct&_bt__experiment=&search_id=&suid=&bvid=019a186ca8347b29afed3fab407ce4b0&session_id=pphctyfhhidhaomxprdaxndhjfoztiuw&device_id=&algorithm=&prk=98190351-b9f9-48f2-92be-8e35bc85b9a1&is_adv=&btn=buy&shop_rank=9&user_delivery_city=34&base_result_adv=&pdp_display=seller_card&view=&app_ver=",
+            "priceValidUntil": "2025-10-25",
+            "itemCondition": "http://schema.org/NewCondition",
+            "availability": "http://schema.org/InStock"
+            },{
+              "@type": "Offer",
+              "price": "1978000",
+            "priceCurrency": "IRR",
+            "name": "د…</script>
+
+
+            but it is not structered clean and must be extracted clean and turned into a flat json file before saving
+            such 
+
+            final_json_to_be_saved:
+            {
+                "name":""
+                "price":""
+                "url":""
+                "first_Spec":""
+                "second_spec:""
+                ....
+                ...
+                "last_spec":""
+
+            }
+
+
+a simple extension that does not slow the browser down would be great. 
