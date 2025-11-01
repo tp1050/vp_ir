@@ -1,7 +1,7 @@
 {
   "manifest_version": 3,
   "name": "Universal Product Scraper",
-  "version": "4",
+  "version": "4.4",
   "description": "Extracts product data from JSON-LD, WooCommerce, or Open Graph on any site to JSON/CSV.",
   "permissions": [],
   "host_permissions": [
