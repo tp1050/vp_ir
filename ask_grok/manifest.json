@@ -1,0 +1,28 @@
+{
+    "manifest_version": 3,
+    "name": "Ask Grok",
+    "version": "1.0",
+    "description": "Right-click selected text to ask Grok.",
+    "permissions": [
+        "contextMenus",
+        "scripting",
+        "storage"
+    ],
+    "host_permissions": [
+        "https://x.com/*"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "content_scripts": [
+        {
+            "matches": [
+                "https://x.com/i/grok*"
+            ],
+            "js": [
+                "content.js"
+            ],
+            "run_at": "document_idle"
+        }
+    ]
+}

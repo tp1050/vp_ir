@@ -1,0 +1,66 @@
+<div class="eu-flash-box">
+    <p class="eu-text">You are buying at the best price! 🇪🇺</p>
+    <div class="flags">
+        <img src="https://flagcdn.com/16x12/fr.png" alt="France" title="France">
+        <img src="https://flagcdn.com/16x12/de.png" alt="Germany" title="Germany">
+        <img src="https://flagcdn.com/16x12/it.png" alt="Italy" title="Italy">
+        <img src="https://flagcdn.com/16x12/es.png" alt="Spain" title="Spain">
+    </div>
+    <style>
+        .eu-flash-box {
+            display: inline-block;
+            width: 280px;
+            padding: 15px;
+            border: 2px solid #000;
+            border-radius: 8px;
+            text-align: center;
+            animation: eu-flash 2s infinite alternate;
+            font-family: Arial, sans-serif;
+            margin: 10px auto;
+            background-color: #007BFF;
+            /* Start with EU blue */
+            color: white;
+        }
+
+        .eu-text {
+            font-size: 14px;
+            margin: 0 0 8px 0;
+            font-weight: bold;
+        }
+
+        .flags {
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+        }
+
+        .flags img {
+            width: 16px;
+            height: 12px;
+            border-radius: 2px;
+        }
+
+        @keyframes eu-flash {
+            0% {
+                background-color: #007BFF;
+                /* EU blue */
+                color: white;
+                border-color: white;
+            }
+
+            50% {
+                background-color: #DC143C;
+                /* Red */
+                color: black;
+                border-color: black;
+            }
+
+            100% {
+                background-color: #007BFF;
+                /* Back to blue */
+                color: white;
+                border-color: white;
+            }
+        }
+    </style>
+</div>

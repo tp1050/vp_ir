@@ -1,0 +1,13 @@
+{
+    "manifest_version": 3,
+    "name": "WhatsApp Quick Send",
+    "version": "3.0",
+    "description": "Right-click highlighted text to send a WhatsApp message.",
+    "permissions": [
+        "contextMenus",
+        "tabs"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    }
+}

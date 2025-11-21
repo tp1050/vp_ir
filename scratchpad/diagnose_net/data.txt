@@ -1,0 +1,87 @@
+cat /etc/privoxy/config
+
+#   GNU nano 7.2                                                                                                                         /etc/privoxy/config                                                                                                                                   
+confdir /etc/privoxy
+logdir /var/log/privoxy
+logfile logfile
+#debug 8
+#debug 512
+debug  1024 # Log the destination for requests Privoxy didn't let through, and the reason why.
+debug  4096 # Startup banner and warnings
+toggle 0
+enforce-blocks 0
+listen-address  0.0.0.0:21808
+forward-socks5 / 127.0.0.1:21994 .
+forward localhost .
+forward 127.0.0.1 .
+
+
+
+ALL_P
+>> http://localhost:21808: 65.109.204.230
+>> socks5://LOCALHOST:2080: ERROR 
+>> socks5://LOCALHOST:21994: 65.109.204.230
+>> socks5://LOCALHOST:21995: ERROR 
+>> socks5://LOCALHOST:21996: 104.237.250.43
+>> socks5://LOCALHOST:21997: 104.237.250.43
+>> socks5://LOCALHOST:21998: ERROR 
+>> socks5://LOCALHOST:21999: ERROR 
+>> socks5://LOCALHOST:9090: ERROR 
+>> http://LOCALHOST:2081: ERROR 
+>> http://192.168.70.7:21808: ERROR 
+>> http://192.168.8.7:21808: ERROR 
+>> http://192.168.1.7:21808: ERROR 
+
+
+@c-Castle:~/Code/gh/net$ systemctl list-units --type=service --state=running
+  UNIT                                                  LOAD   ACTIVE SUB     DESCRIPTION                                                          
+  accounts-daemon.service                               loaded active running Accounts Service
+  avahi-daemon.service                                  loaded active running Avahi mDNS/DNS-SD Stack
+  colord.service                                        loaded active running Manage, Install and Generate Color Profiles
+  cron.service                                          loaded active running Regular background program processing daemon
+  dbus.service                                          loaded active running D-Bus System Message Bus
+  fin1auto.service                                      loaded active running Autofin1
+  fin2_tun.service                                      loaded active running fin2auto
+  fwupd.service                                         loaded active running Firmware update daemon
+  gdm.service                                           loaded active running GNOME Display Manager
+  kerneloops.service                                    loaded active running Tool to automatically collect and submit kernel crash signatures
+  ModemManager.service                                  loaded active running Modem Manager
+  NetworkManager.service                                loaded active running Network Manager
+  pdtunnel.service                                      loaded active running Persistent SSH Tunnel with Autossh
+  polkit.service                                        loaded active running Authorization Manager
+  power-profiles-daemon.service                         loaded active running Power Profiles daemon
+  privoxy.service                                       loaded active running Privacy enhancing HTTP Proxy
+  rsyslog.service                                       loaded active running System Logging Service
+  rtkit-daemon.service                                  loaded active running RealtimeKit Scheduling Policy Service
+  shellinabox.service                                   loaded active running LSB: Shell In A Box Daemon
+  smbd.service                                          loaded active running Samba SMB Daemon
+  snap.canonical-livepatch.canonical-livepatchd.service loaded active running Service for snap application canonical-livepatch.canonical-livepatchd
+  snap.cups.cups-browsed.service                        loaded active running Service for snap application cups.cups-browsed
+  snap.cups.cupsd.service                               loaded active running Service for snap application cups.cupsd
+  snapd.service                                         loaded active running Snap Daemon
+  switcheroo-control.service                            loaded active running Switcheroo Control Proxy service
+  systemd-journald.service                              loaded active running Journal Service
+  systemd-logind.service                                loaded active running User Login Management
+  systemd-oomd.service                                  loaded active running Userspace Out-Of-Memory (OOM) Killer
+  systemd-resolved.service                              loaded active running Network Name Resolution
+  systemd-timesyncd.service                             loaded active running Network Time Synchronization
+  systemd-udevd.service                                 loaded active running Rule-based Manager for Device Events and Files
+  tftpd-hpa.service                                     loaded active running LSB: HPA's tftp server
+  thermald.service                                      loaded active running Thermal Daemon Service
+  udisks2.service                                       loaded active running Disk Manager
+  unattended-upgrades.service                           loaded active running Unattended Upgrades Shutdown
+  upower.service                                        loaded active running Daemon for power management
+  user@1000.service                                     loaded active running User Manager for UID 1000
+  webmin.service                                        loaded active running Webmin server daemon
+  wpa_supplicant.service                                loaded active running WPA supplicant
+
+Legend: LOAD   → Reflects whether the unit definition was properly loaded.
+
+
+out of these the 
+  fin1auto.service                                      loaded active running Autofin1
+  fin2_tun.service                                      loaded active running fin2auto
+
+  are the ssh tunnel services
+
+  
