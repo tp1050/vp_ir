@@ -1,0 +1,28 @@
+{
+    "manifest_version": 3,
+    "name": "Image Copier Test",
+    "version": "2.0",
+    "description": "Right-click images to copy to clipboard (focus: copy only).",
+    "permissions": [
+        "contextMenus",
+        "scripting",
+        "activeTab",
+        "offscreen"
+    ],
+    "host_permissions": [
+        "<all_urls>"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "web_accessible_resources": [
+        {
+            "resources": [
+                "offscreen.html"
+            ],
+            "matches": [
+                "<all_urls>"
+            ]
+        }
+    ]
+}

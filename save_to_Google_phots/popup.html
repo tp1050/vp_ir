@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Paste to Photos</title>
+    <style>
+        body {
+            width: 200px;
+            padding: 20px;
+            text-align: center;
+            font-family: Arial;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background: #4caf50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #45a049;
+        }
+
+        #status {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #666;
+        }
+    </style>
+</head>
+
+<body>
+    <h3>Ready to paste?</h3>
+    <button id="pasteBtn">Paste to Photos</button>
+    <div id="status"></div>
+    <script src="popup.js"></script>
+</body>
+
+</html>

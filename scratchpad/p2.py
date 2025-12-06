@@ -1,7 +1,7 @@
 import csv
 from urllib.parse import urljoin
-buybutton="""
-\n
+
+buybutton = """
 <div class="wzc86 wz-partial-template">
     <div class="wzc86-bg">&nbsp;</div>
     <a class="wz-shop-product-add-cart flashing-button" data-id="<PR_ID>" href="#"><span
@@ -35,8 +35,8 @@ buybutton="""
         }
     </style>
 </div>
-\n
 """
+buybutton=buybutton.replace('\n',' ')
 def augment_description_with_images_advanced(csv_file_path, output_file_path, 
                                            img_style=None, 
                                            position='append'):
@@ -61,21 +61,30 @@ def augment_description_with_images_advanced(csv_file_path, output_file_path,
     updated_rows = []
     
     try:
-        with open(csv_file_path, 'r', encoding='utf-8') as file:
+        with open(csv_file_path, 'r', encoding='utf-8-sig') as file:  # Use utf-8-sig to handle BOM properly
             csv_reader = csv.reader(file)
             header = next(csv_reader)  # Read header
             print(header)
             
-            # Find column indices
-            images_url_index = header.index('images_url') if 'images_url' in header else None
-            description_index = header.index('description') if 'description' in header else None
-            PR_ID=header.index('\ufeffid') 
+            # Find column indices (handle potential BOM in header)
+            def find_column_index(headers, col_name):
+                for i, h in enumerate(headers):
+                    if h.strip('\ufeff').lower() == col_name.lower():
+                        return i
+                return None
+            
+            images_url_index = find_column_index(header, 'images_url')
+            description_index = find_column_index(header, 'description')
+            id_index = find_column_index(header, 'id')
             
             if images_url_index is None:
                 print("❌ Error: 'images_url' column not found!")
                 return False
             if description_index is None:
                 print("❌ Error: 'description' column not found!")
+                return False
+            if id_index is None:
+                print("❌ Error: 'id' column not found!")
                 return False
             
             updated_rows.append(header)  # Add header to output
@@ -86,6 +95,7 @@ def augment_description_with_images_advanced(csv_file_path, output_file_path,
                 # Get images_url and description (handle missing values)
                 images_url = row[images_url_index] if images_url_index < len(row) else ""
                 description = row[description_index] if description_index < len(row) else ""
+                pr_id = row[id_index] if id_index < len(row) else ""  # Get actual product ID per row
                 
                 # Split images_url by comma and clean each URL
                 image_urls = []
@@ -100,7 +110,10 @@ def augment_description_with_images_advanced(csv_file_path, output_file_path,
                         img_tag = f'<img src="{url}" alt="Product Image {i}" style="{img_style}" />'
                         img_tags.append(img_tag)
                 
-                # Insert images based on position
+                # Prepare buy button HTML with actual product ID
+                buy_button_html = buybutton.replace("<PR_ID>", str(pr_id))
+                
+                # Insert images and buy button based on position
                 if img_tags:
                     if position == 'append':
                         # Add images at the END of description
@@ -109,21 +122,25 @@ def augment_description_with_images_advanced(csv_file_path, output_file_path,
                         description += '\n'.join(img_tags)
                         
                     elif position == 'prepend':
-                        # Add images at the BEGINNING of description
+                        # Add buy button and images at the BEGINNING of description
+                        prepend_content = buy_button_html
+                        if img_tags:
+                            prepend_content += '\n\n' + '\n'.join(img_tags)
+                        
                         if description.strip():
-                            description = buybutton.replace("<PR_ID>",str(PR_ID))+'\n'.join(img_tags) + '\n\n' + description
+                            description = prepend_content + '\n\n' + description
                         else:
-                            description = '\n'.join(img_tags)
+                            description = prepend_content
                 
                 # Update the description in the row
                 row[description_index] = description
                 updated_rows.append(row)
                 
-                print(f"✅ Row {row_num}: Added {len(img_tags)} images ({position}d)")
+                print(f"✅ Row {row_num}: Added {len(img_tags)} images ({position}d) with buy button (ID: {pr_id})")
             
-            # Write updated CSV
+            # Write updated CSV with explicit quoting for multi-line fields
             with open(output_file_path, 'w', newline='', encoding='utf-8') as file:
-                csv_writer = csv.writer(file)
+                csv_writer = csv.writer(file, quoting=csv.QUOTE_MINIMAL)  # Ensures fields with newlines are quoted
                 csv_writer.writerows(updated_rows)
             
             print(f"\n🎉 SUCCESS! Updated CSV saved to: {output_file_path}")
@@ -163,5 +180,6 @@ if __name__ == "__main__":
         print("✨ PROCESSING COMPLETE!")
         print(f"📁 Input:  {INPUT_FILE}")
         print(f"📁 Output: {OUTPUT_FILE}")
-        print("💡 Check your updated CSV file!")
+        print("💡 Check your updated CSV file! Open in a UTF-8 compatible editor like VS Code or Notepad++.")
+        print("💡 If using Excel, import as UTF-8 CSV to preserve Persian text and multi-line fields.")
         print("="*50)

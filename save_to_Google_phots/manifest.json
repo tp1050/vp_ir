@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "Save to Google Photos",
+  "version": "4.0",
+  "description": "Right-click images to copy and paste to Google Photos.",
+  "permissions": [
+    "contextMenus",
+    "scripting",
+    "tabs",
+    "activeTab"
+  ],
+  "host_permissions": [
+    "<all_urls>",
+    "https://photos.google.com/*"
+  ],
+  "action": {
+    "default_popup": "popup.html"
+  },
+  "background": {
+    "service_worker": "background.js"
+  }
+}

@@ -1,0 +1,6 @@
+#!/bin/bash
+# /opt/photos-run (sudo nano or codium with sudo) to handle the optional album arg:
+# Bash
+source /opt/photos-venv/bin/activate
+python3 ~/send_to_google_photos.py "$@"
+deactivate

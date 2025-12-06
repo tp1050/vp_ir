@@ -1,0 +1,19 @@
+{
+    "manifest_version": 3,
+    "name": "Save to Google Photos",
+    "version": "3.0",
+    "description": "Right-click images to copy, open Photos, and auto-paste upload.",
+    "permissions": [
+        "contextMenus",
+        "scripting",
+        "tabs",
+        "activeTab"
+    ],
+    "host_permissions": [
+        "<all_urls>",
+        "https://photos.google.com/*"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    }
+}
